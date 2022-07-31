@@ -16,8 +16,19 @@ export const connect = async () => {
     completed: Boolean,
   })
 
+  // OUR USER SCHEMA
+  const UserSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    phone: String,
+    blood_group: String,
+    hash: String,
+    verified: Boolean,
+  });
   // OUR TODO MODEL
   const Todo = mongoose.models.Todo || mongoose.model("Todo", TodoSchema)
+  
+  const User=mongoose.models.User || mongoose.model("User", UserSchema)
 
-  return { conn, Todo }
+  return { conn, Todo, User }
 }

@@ -11,3 +11,12 @@ export interface ResponseFuncs {
     item: string
     completed: boolean
   }
+  export interface User {
+    _id?: number
+    name: string
+    email:string
+    phone:string
+    blood_group:string
+    hash:string
+    verified:boolean
+  }
