@@ -1,7 +1,44 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import axios from '../../utils/axios';
+import { getProviders, signIn } from "next-auth/react";
+const Login: NextPage = ({ providers, redir }:any) => {
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
 
-const Login: NextPage = () => {
+
+  const submitForm =async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+    try{
+      let res= await axios.post("/api/login",{
+        email,
+        password,
+   });
+      toast.success("Login Successfully");
+      signIn(
+        "credentials",
+        {
+          callbackUrl: redir,
+        },
+        {
+          user: JSON.stringify({
+            _id: res.data._id,
+            name: res.data.name,
+            email: res.data.email,
+            phone: res.data.phone,
+          }),
+        }
+      );
+    }
+    catch(err:any){
+      console.log(err)
+      toast.error(err.response.data.message);
+    }
+    
+      
+    }
   return (
 <div className="container" style={{ marginTop: 10, marginBottom: 10 }}>
   <div className="row justify-content-center">
@@ -9,12 +46,7 @@ const Login: NextPage = () => {
       <div className="card">
         <div className="card-header">Login</div>
         <div className="card-body">
-          <form method="POST" action="https://blood.eibbuy.com/login">
-            <input
-              type="hidden"
-              name="_token"
-              defaultValue="TEaTcthHTh55iKIZneOKw45khBh7DUEhAC4FobOL"
-            />
+        <form method="POST" onSubmit={submitForm}>
             <div className="row mb-3">
               <label
                 htmlFor="email"
@@ -24,6 +56,7 @@ const Login: NextPage = () => {
               </label>
               <div className="col-md-6">
                 <input
+                  onChange={(e)=>setEmail(e.target.value)}
                   id="email"
                   type="email"
                   className="form-control "
@@ -44,6 +77,7 @@ const Login: NextPage = () => {
               </label>
               <div className="col-md-6">
                 <input
+                  onChange={(e)=>setPassword(e.target.value)}
                   id="password"
                   type="password"
                   className="form-control "
@@ -97,7 +131,13 @@ const Login: NextPage = () => {
 </div>
 
   )}
-
+  export async function getServerSideProps(context:any) {
+    const providers = await getProviders();
+    let redir = context.req.headers.referer || "/";
+    return {
+      props: { providers, redir },
+    };
+  }
 
 
 export default Login

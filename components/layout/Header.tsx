@@ -1,10 +1,12 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-
+import { useSession, signIn, signOut } from "next-auth/react"
 type Props = {}
 
 export default function Header({}: Props) {
+  const { data: session } = useSession();
+  
   return (
     <header className="continer-fluid ">
     <div className="header-top">
@@ -27,7 +29,15 @@ export default function Header({}: Props) {
             <ul className="ulright">
               <li>
                 <i className="fas fa-user" />
-                <Link href={'/login'}>Login</Link>
+                {session ?
+                  <>
+                  <Link href={'/dashboard'}>Dashboard</Link>
+                  <button className='btn btn-link' onClick={() => signOut()}>
+                  Logout
+                  </button>
+                  </>
+                  : <Link href={'/login'}>Login</Link>}
+                
               </li>
             </ul>
           </div>

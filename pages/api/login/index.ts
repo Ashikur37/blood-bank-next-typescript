@@ -12,11 +12,11 @@ import { connect } from "../../../connection";
         res.json(user);
     }
     else{
-        res.status(400).json({error:"Invalid Password"});
+        res.status(400).json({message:"Invalid Password"});
     }
     }
     else{
-        res.status(400).json({error:"User not found"});
+        res.status(400).json({message:"User not found"});
     }
 
 

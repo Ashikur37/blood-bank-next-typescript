@@ -1,6 +1,10 @@
 import { NextPage } from "next";
+import { NextResponse } from "next/server";
 import { useState } from "react";
-const { API_URL } = process.env;
+import {  toast } from 'react-toastify';
+import axios from "../../utils/axios";
+import Router from "next/router";
+
 const Register:NextPage=()=>{
     const [name,setName]=useState("");
     const [email,setEmail]=useState("");
@@ -9,11 +13,25 @@ const Register:NextPage=()=>{
     const [confirmPassword,setConfirmPassword]=useState("");
     const [bloodGroup,setBloodGroup]=useState("");
 
-    const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
-       
+    const submitForm =async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        // axios.post()
-        alert(API_URL);
+      try{
+        let res= await axios.post("/api/register",{
+          name,
+          email,
+          phone,
+          password,
+          blood_group:bloodGroup
+     });
+        toast.success("Registered Successfully");
+        //redirect to login page
+        // NextResponse.redirect("/login");
+        Router.push("/login");
+      }
+      catch(err:any){
+        toast.error(err.response.data.message);
+      }
+      
         
       }
     
