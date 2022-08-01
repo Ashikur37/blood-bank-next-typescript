@@ -147,7 +147,10 @@ export default NextAuth({
     // async signIn({ user, account, profile, email, credentials }) { return true },
     // async redirect({ url, baseUrl }) { return baseUrl },
     // async session({ session, token, user }) { return session },
-    // async jwt({ token, user, account, profile, isNewUser }) { return token }
+    // jwt: async ({ user, token }) => {
+      
+    //   return token;
+    // },
   },
 
   // Events are useful for logging
@@ -155,5 +158,5 @@ export default NextAuth({
   events: {},
 
   // Enable debug messages in the console if you are having problems
-  debug: false,
+  debug: true,
 })

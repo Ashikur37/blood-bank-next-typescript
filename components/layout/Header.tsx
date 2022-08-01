@@ -29,14 +29,7 @@ export default function Header({}: Props) {
             <ul className="ulright">
               <li>
                 <i className="fas fa-user" />
-                {session ?
-                  <>
-                  <Link href={'/dashboard'}>Dashboard</Link>
-                  <button className='btn btn-link' onClick={() => signOut()}>
-                  Logout
-                  </button>
-                  </>
-                  : <Link href={'/login'}>Login</Link>}
+               
                 
               </li>
             </ul>
@@ -68,36 +61,32 @@ export default function Header({}: Props) {
               </button>
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
-                  <li className="nav-item active">
-                    <a className="nav-link" href="#">
-                      Home
+                  <li className="nav-item ">
+                    <Link href={'/'} className="nav-link"> 
+                    <a className="nav-link" >
+                    Home
                     </a>
+                    
+                    </Link>
+                   
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#about">
-                      About Us
-                    </a>
+                  {session ?
+                  <>
+                  <li className="nav-item ">
+                  <Link href={'/dashboard'}>
+                  <a className="nav-link" >Dashboard
+                  </a>
+                  </Link>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#gallery">
-                      Gallery
-                    </a>
+                  <li className="nav-item ">
+                  <a href='#' className='nav-link ' onClick={() => signOut()}>
+                    Logout
+                  </a>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#process">
-                      Process
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#blog">
-                      Blog
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#contact">
-                      Contact US
-                    </a>
-                  </li>
+                  </>
+                  :<li className="nav-item "><Link href={'/login'}><a className="nav-link" >Login</a></Link></li> }
+                  
+                 
                 </ul>
               </div>
             </nav>
